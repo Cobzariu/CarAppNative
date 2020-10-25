@@ -1,4 +1,4 @@
-package ro.ubbcluj.cs.ilazar.myapp2.todo.items
+package com.example.carapp.todo.items
 
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +35,8 @@ class ItemListAdapter(
                 putString(ItemEditFragment.HORSEPOWER,item.horsepower.toString())
                 putBoolean(ItemEditFragment.AUTOMATIC,item.automatic)
                 putString(ItemEditFragment.RELEASE_DATE,item.releaseDate)
+                putString(ItemEditFragment.RELEASE_DATE,item.releaseDate)
+                putString(ItemEditFragment.USER_ID,item.userId)
             })
         }
     }

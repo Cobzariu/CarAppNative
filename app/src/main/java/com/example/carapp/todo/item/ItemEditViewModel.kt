@@ -12,7 +12,7 @@ import com.example.carapp.todo.data.Item
 import com.example.carapp.todo.data.ItemRepository
 
 class ItemEditViewModel : ViewModel() {
-    private val mutableItem = MutableLiveData<Item>().apply { value = Item("", "", horsepower = 0,automatic = false, releaseDate = "") }
+    private val mutableItem = MutableLiveData<Item>().apply { value = Item("", "", horsepower = 0,automatic = false, releaseDate = "",name = "") }
     private val mutableFetching = MutableLiveData<Boolean>().apply { value = false }
     private val mutableCompleted = MutableLiveData<Boolean>().apply { value = false }
     private val mutableException = MutableLiveData<Exception>().apply { value = null }
@@ -64,6 +64,28 @@ class ItemEditViewModel : ViewModel() {
                 }
                 is Result.Error -> {
                     Log.w(TAG, "saveOrUpdateItem failed", result.exception);
+                    mutableException.value = result.exception
+                }
+            }
+            mutableCompleted.value = true
+            mutableFetching.value = false
+        }
+    }
+    fun deleteItem()
+    {
+        viewModelScope.launch {
+            mutableFetching.value = true
+            mutableException.value = null
+            val item = mutableItem.value ?: return@launch
+            val result: Result<Boolean>
+            result = ItemRepository.delete(item._id)
+            when (result) {
+                is Result.Success -> {
+                    Log.d(TAG, "delete succeeded");
+//                    mutableItem.value = result.data
+                }
+                is Result.Error -> {
+                    Log.w(TAG, "delete failed", result.exception);
                     mutableException.value = result.exception
                 }
             }

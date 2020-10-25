@@ -26,6 +26,7 @@ class ItemEditFragment : Fragment() {
         const val HORSEPOWER="horsepower"
         const val AUTOMATIC="automatic"
         const val RELEASE_DATE="release_date"
+        const val USER_ID="user_id"
     }
 
     private lateinit var viewModel: ItemEditViewModel
@@ -33,6 +34,8 @@ class ItemEditFragment : Fragment() {
     private var horsepower: String? = null
     private var releaseDate: String? = null
     private var automatic: Boolean = false
+    private var userId: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +100,9 @@ class ItemEditFragment : Fragment() {
                 car_automatic.isChecked,
                 date.toString()
             )
+        }
+        button_delete.setOnClickListener{
+            viewModel.deleteItem()
         }
 
     }

@@ -1,4 +1,4 @@
-package ro.ubbcluj.cs.ilazar.myapp2.todo.items
+package com.example.carapp.todo.items
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,6 @@ import com.example.carapp.R
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import com.example.carapp.auth.data.AuthRepository
 import com.example.carapp.core.TAG
-import com.example.carapp.todo.items.ItemListViewModel
 
 class ItemListFragment : Fragment() {
     private lateinit var itemListAdapter: ItemListAdapter

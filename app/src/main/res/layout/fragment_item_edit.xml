@@ -67,9 +67,15 @@
         <DatePicker
             android:id="@+id/car_release_date"
             android:layout_width="254dp"
-            android:layout_height="403dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:text="@string/delete"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

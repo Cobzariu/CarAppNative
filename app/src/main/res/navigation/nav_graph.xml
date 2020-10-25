@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/fragment_item_list"
-        android:name="ro.ubbcluj.cs.ilazar.myapp2.todo.items.ItemListFragment"
+        android:name="com.example.carapp.todo.items.ItemListFragment"
         android:label="@string/item_list_fragment_label"
         tools:layout="@layout/fragment_item_list">
 

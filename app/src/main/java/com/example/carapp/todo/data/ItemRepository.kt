@@ -1,5 +1,6 @@
 package com.example.carapp.todo.data
 
+import com.example.carapp.core.Api
 import com.example.carapp.core.Result
 import com.example.carapp.todo.data.remote.ItemApi
 
@@ -51,6 +52,21 @@ object ItemRepository {
             }
             return Result.Success(updatedItem)
         } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+    suspend fun delete(itemId: String): Result<Boolean>
+    {
+        try {
+
+            val index = cachedItems?.indexOfFirst { it._id == itemId }
+            if (index!=null)
+            {
+                cachedItems?.removeAt(index)
+            }
+            return Result.Success(true)
+        }
+        catch (e: Exception) {
             return Result.Error(e)
         }
     }
