@@ -8,16 +8,16 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import com.example.carapp.core.Result
 import com.example.carapp.core.TAG
-import com.example.carapp.todo.data.Item
-import com.example.carapp.todo.data.ItemRepository
+import com.example.carapp.todo.data.Car
+import com.example.carapp.todo.data.CarRepository
 
-class ItemEditViewModel : ViewModel() {
-    private val mutableItem = MutableLiveData<Item>().apply { value = Item("", "", horsepower = 0,automatic = false, releaseDate = "",name = "") }
+class CarEditViewModel : ViewModel() {
+    private val mutableItem = MutableLiveData<Car>().apply { value = Car("", "", horsepower = 0,automatic = false, releaseDate = "",name = "") }
     private val mutableFetching = MutableLiveData<Boolean>().apply { value = false }
     private val mutableCompleted = MutableLiveData<Boolean>().apply { value = false }
     private val mutableException = MutableLiveData<Exception>().apply { value = null }
 
-    val item: LiveData<Item> = mutableItem
+    val item: LiveData<Car> = mutableItem
     val fetching: LiveData<Boolean> = mutableFetching
     val fetchingError: LiveData<Exception> = mutableException
     val completed: LiveData<Boolean> = mutableCompleted
@@ -27,7 +27,7 @@ class ItemEditViewModel : ViewModel() {
             Log.v(TAG, "loadItem...");
             mutableFetching.value = true
             mutableException.value = null
-            when (val result = ItemRepository.load(itemId)) {
+            when (val result = CarRepository.load(itemId)) {
                 is Result.Success -> {
                     Log.d(TAG, "loadItem succeeded");
                     mutableItem.value = result.data
@@ -51,11 +51,11 @@ class ItemEditViewModel : ViewModel() {
             item.releaseDate=releaseDate
             mutableFetching.value = true
             mutableException.value = null
-            val result: Result<Item>
+            val result: Result<Car>
             if (item._id.isNotEmpty()) {
-                result = ItemRepository.update(item)
+                result = CarRepository.update(item)
             } else {
-                result = ItemRepository.save(item)
+                result = CarRepository.save(item)
             }
             when (result) {
                 is Result.Success -> {
@@ -78,7 +78,7 @@ class ItemEditViewModel : ViewModel() {
             mutableException.value = null
             val item = mutableItem.value ?: return@launch
             val result: Result<Boolean>
-            result = ItemRepository.delete(item._id)
+            result = CarRepository.delete(item._id)
             when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "delete succeeded");

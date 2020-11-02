@@ -2,24 +2,24 @@ package com.example.carapp.todo.data.remote
 
 import retrofit2.http.*
 import com.example.carapp.core.Api
-import com.example.carapp.todo.data.Item
+import com.example.carapp.todo.data.Car
 import retrofit2.Response
 
-object ItemApi {
+object CarApi {
     interface Service {
         @GET("/api/car")
-        suspend fun find(): List<Item>
+        suspend fun find(): List<Car>
 
         @GET("/api/car/{id}")
-        suspend fun read(@Path("id") itemId: String): Item;
+        suspend fun read(@Path("id") itemId: String): Car;
 
         @Headers("Content-Type: application/json")
         @POST("/api/car")
-        suspend fun create(@Body item: Item): Item
+        suspend fun create(@Body item: Car): Car
 
         @Headers("Content-Type: application/json")
         @PUT("/api/car/{id}")
-        suspend fun update(@Path("id") itemId: String, @Body item: Item): Item
+        suspend fun update(@Path("id") itemId: String, @Body item: Car): Car
 
         @DELETE("/api/car/{id}")
         suspend fun delete(@Path("id") itemId: String): Response<Unit>

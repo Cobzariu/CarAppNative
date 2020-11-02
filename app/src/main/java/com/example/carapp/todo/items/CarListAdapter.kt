@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carapp.R
 import kotlinx.android.synthetic.main.view_item.view.*
 import com.example.carapp.core.TAG
-import com.example.carapp.todo.data.Item
-import com.example.carapp.todo.item.ItemEditFragment
+import com.example.carapp.todo.data.Car
+import com.example.carapp.todo.item.CarEditFragment
 
-class ItemListAdapter(
+class CarListAdapter(
     private val fragment: Fragment
-) : RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CarListAdapter.ViewHolder>() {
 
-    var items = emptyList<Item>()
+    var items = emptyList<Car>()
         set(value) {
             field = value
             notifyDataSetChanged();
@@ -29,14 +29,14 @@ class ItemListAdapter(
 
     init {
         onItemClick = View.OnClickListener { view ->
-            val item = view.tag as Item
+            val item = view.tag as Car
             fragment.findNavController().navigate(R.id.fragment_item_edit, Bundle().apply {
-                putString(ItemEditFragment.ITEM_ID, item._id)
-                putString(ItemEditFragment.HORSEPOWER,item.horsepower.toString())
-                putBoolean(ItemEditFragment.AUTOMATIC,item.automatic)
-                putString(ItemEditFragment.RELEASE_DATE,item.releaseDate)
-                putString(ItemEditFragment.RELEASE_DATE,item.releaseDate)
-                putString(ItemEditFragment.USER_ID,item.userId)
+                putString(CarEditFragment.ITEM_ID, item._id)
+                putString(CarEditFragment.HORSEPOWER,item.horsepower.toString())
+                putBoolean(CarEditFragment.AUTOMATIC,item.automatic)
+                putString(CarEditFragment.RELEASE_DATE,item.releaseDate)
+                putString(CarEditFragment.RELEASE_DATE,item.releaseDate)
+                putString(CarEditFragment.USER_ID,item.userId)
             })
         }
     }

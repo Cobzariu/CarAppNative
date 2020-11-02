@@ -1,6 +1,6 @@
 package com.example.carapp.todo.data
 
-data class Item(
+data class Car(
     val _id: String,
     val userId: String,
     var name: String,

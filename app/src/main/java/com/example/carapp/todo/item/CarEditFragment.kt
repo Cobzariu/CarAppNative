@@ -17,10 +17,9 @@ import com.example.carapp.R
 import com.example.carapp.core.TAG
 import kotlinx.android.synthetic.main.fragment_item_edit.*
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
-class ItemEditFragment : Fragment() {
+class CarEditFragment : Fragment() {
     companion object {
         const val ITEM_ID = "_ID"
         const val HORSEPOWER="horsepower"
@@ -29,7 +28,7 @@ class ItemEditFragment : Fragment() {
         const val USER_ID="user_id"
     }
 
-    private lateinit var viewModel: ItemEditViewModel
+    private lateinit var viewModel: CarEditViewModel
     private var itemId: String? = null
     private var horsepower: String? = null
     private var releaseDate: String? = null
@@ -108,7 +107,7 @@ class ItemEditFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(this).get(ItemEditViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CarEditViewModel::class.java)
         viewModel.item.observe(viewLifecycleOwner) { item ->
             Log.v(TAG, "update items")
             car_name.setText(item.name)

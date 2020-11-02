@@ -8,15 +8,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import com.example.carapp.core.Result
 import com.example.carapp.core.TAG
-import com.example.carapp.todo.data.Item
-import com.example.carapp.todo.data.ItemRepository
+import com.example.carapp.todo.data.Car
+import com.example.carapp.todo.data.CarRepository
 
-class ItemListViewModel : ViewModel() {
-    private val mutableItems = MutableLiveData<List<Item>>().apply { value = emptyList() }
+class CarListViewModel : ViewModel() {
+    private val mutableItems = MutableLiveData<List<Car>>().apply { value = emptyList() }
     private val mutableLoading = MutableLiveData<Boolean>().apply { value = false }
     private val mutableException = MutableLiveData<Exception>().apply { value = null }
 
-    val items: LiveData<List<Item>> = mutableItems
+    val items: LiveData<List<Car>> = mutableItems
     val loading: LiveData<Boolean> = mutableLoading
     val loadingError: LiveData<Exception> = mutableException
 
@@ -25,7 +25,7 @@ class ItemListViewModel : ViewModel() {
             Log.v(TAG, "loadItems...");
             mutableLoading.value = true
             mutableException.value = null
-            when (val result = ItemRepository.loadAll()) {
+            when (val result = CarRepository.loadAll()) {
                 is Result.Success -> {
                     Log.d(TAG, "loadItems succeeded");
                     mutableItems.value = result.data
