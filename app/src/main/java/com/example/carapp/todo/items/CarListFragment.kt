@@ -49,22 +49,22 @@ class CarListFragment : Fragment() {
         itemListAdapter = CarListAdapter(this)
         item_list.adapter = itemListAdapter
         itemsModel = ViewModelProvider(this).get(CarListViewModel::class.java)
-        itemsModel.items.observe(viewLifecycleOwner) { items ->
+        itemsModel.items.observe(viewLifecycleOwner, { items ->
             Log.v(TAG, "update items")
             itemListAdapter.items = items
-        }
-        itemsModel.loading.observe(viewLifecycleOwner) { loading ->
+        })
+        itemsModel.loading.observe(viewLifecycleOwner, { loading ->
             Log.i(TAG, "update loading")
             progress.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-        itemsModel.loadingError.observe(viewLifecycleOwner) { exception ->
+        })
+        itemsModel.loadingError.observe(viewLifecycleOwner, { exception ->
             if (exception != null) {
                 Log.i(TAG, "update loading error")
                 val message = "Loading exception ${exception.message}"
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }
-        }
-        itemsModel.loadItems()
+        })
+        itemsModel.refresh()
     }
 
     override fun onDestroy() {

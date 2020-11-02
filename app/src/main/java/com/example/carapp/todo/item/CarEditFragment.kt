@@ -15,25 +15,19 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.carapp.R
 import com.example.carapp.core.TAG
+import com.example.carapp.todo.data.Car
 import kotlinx.android.synthetic.main.fragment_item_edit.*
 import java.time.LocalDate
 
 
 class CarEditFragment : Fragment() {
     companion object {
-        const val ITEM_ID = "_ID"
-        const val HORSEPOWER="horsepower"
-        const val AUTOMATIC="automatic"
-        const val RELEASE_DATE="release_date"
-        const val USER_ID="user_id"
+        const val ITEM_ID = "ITEM_ID"
     }
 
     private lateinit var viewModel: CarEditViewModel
     private var itemId: String? = null
-    private var horsepower: String? = null
-    private var releaseDate: String? = null
-    private var automatic: Boolean = false
-    private var userId: String? = null
+    private var car: Car? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,18 +36,6 @@ class CarEditFragment : Fragment() {
         arguments?.let {
             if (it.containsKey(ITEM_ID)) {
                 itemId = it.getString(ITEM_ID).toString()
-            }
-            if (it.containsKey(HORSEPOWER))
-            {
-                horsepower=it.getString(HORSEPOWER).toString();
-            }
-            if (it.containsKey(AUTOMATIC))
-            {
-                automatic=it.getBoolean(AUTOMATIC);
-            }
-            if (it.containsKey(RELEASE_DATE))
-            {
-                releaseDate=it.getString(RELEASE_DATE);
             }
         }
 
@@ -68,50 +50,39 @@ class CarEditFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.v(TAG, "onViewCreated")
-        car_name.setText(itemId)
-        car_horsepower.setText(horsepower);
-        car_automatic.isChecked = automatic;
-        if (releaseDate!=null)
-        {
-            val date = LocalDate.parse(releaseDate);
-            car_release_date.updateDate(date.year, date.monthValue, date.dayOfMonth)
-        }
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
         setupViewModel()
         fab.setOnClickListener {
             Log.v(TAG, "save item")
-            val day: Int = car_release_date.dayOfMonth
-            val month: Int = car_release_date.month + 1
-            val year: Int = car_release_date.year
-            val date=LocalDate.of(year, month, day)
-            viewModel.saveOrUpdateItem(
-                car_name.text.toString(),
-                car_horsepower.text.toString().toInt(),
-                car_automatic.isChecked,
-                date.toString()
-            )
+            val i = car
+            if (i != null) {
+                i.name = car_name.text.toString()
+                i.automatic = car_automatic.isChecked
+                i.horsepower = car_horsepower.text.toString()
+                val day: Int = car_release_date.dayOfMonth
+                val month: Int = car_release_date.month + 1
+                val year: Int = car_release_date.year
+                val date = LocalDate.of(year, month, day)
+                i.releaseDate = date.toString()
+                viewModel.saveOrUpdateItem(i)
+
+            }
         }
-        button_delete.setOnClickListener{
-            viewModel.deleteItem()
+        button_delete.setOnClickListener {
+            if (car != null) {
+                viewModel.deleteItem(car!!._id)
+            }
+
         }
+
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this).get(CarEditViewModel::class.java)
-        viewModel.item.observe(viewLifecycleOwner) { item ->
-            Log.v(TAG, "update items")
-            car_name.setText(item.name)
-        }
         viewModel.fetching.observe(viewLifecycleOwner) { fetching ->
             Log.v(TAG, "update fetching")
             progress.visibility = if (fetching) View.VISIBLE else View.GONE
@@ -126,15 +97,31 @@ class CarEditFragment : Fragment() {
                 }
             }
         }
-        viewModel.completed.observe(viewLifecycleOwner, Observer { completed ->
+        viewModel.completed.observe(viewLifecycleOwner) { completed ->
             if (completed) {
                 Log.v(TAG, "completed, navigate back")
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
-        })
+        }
         val id = itemId
-        if (id != null) {
-            viewModel.loadItem(id)
+        if (id == null) {
+            car = Car("", "", "", "", false, "")
+        } else {
+            viewModel.getItemById(id).observe(viewLifecycleOwner) {
+                Log.v(TAG, "update items")
+                if (it != null) {
+                    car = it
+                    car_name.setText(car!!.name)
+                    car_horsepower.setText(car!!.horsepower)
+                    car_automatic.isChecked = car!!.automatic
+                    if (car!!.releaseDate.isNotEmpty()) {
+                        val date = LocalDate.parse(car!!.releaseDate);
+                        car_release_date.updateDate(date.year, date.monthValue, date.dayOfMonth)
+                    }
+
+
+                }
+            }
         }
     }
 }

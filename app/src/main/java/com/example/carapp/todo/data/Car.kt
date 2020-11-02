@@ -1,12 +1,18 @@
 package com.example.carapp.todo.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "cars")
 data class Car(
-    val _id: String,
-    val userId: String,
-    var name: String,
-    var horsepower: Number,
-    var automatic: Boolean,
-    var releaseDate: String
+    @PrimaryKey @ColumnInfo(name = "_id") val _id: String,
+    @ColumnInfo(name = "userId") val userId: String,
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "horsepower") var horsepower: String,
+    @ColumnInfo(name = "automatic") var automatic: Boolean,
+    @ColumnInfo(name = "releaseDate") var releaseDate: String
 
 ) {
     override fun toString(): String = name

@@ -32,11 +32,6 @@ class CarListAdapter(
             val item = view.tag as Car
             fragment.findNavController().navigate(R.id.fragment_item_edit, Bundle().apply {
                 putString(CarEditFragment.ITEM_ID, item._id)
-                putString(CarEditFragment.HORSEPOWER,item.horsepower.toString())
-                putBoolean(CarEditFragment.AUTOMATIC,item.automatic)
-                putString(CarEditFragment.RELEASE_DATE,item.releaseDate)
-                putString(CarEditFragment.RELEASE_DATE,item.releaseDate)
-                putString(CarEditFragment.USER_ID,item.userId)
             })
         }
     }

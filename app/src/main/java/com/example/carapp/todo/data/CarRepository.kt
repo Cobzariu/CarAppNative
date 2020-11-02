@@ -1,43 +1,35 @@
 package com.example.carapp.todo.data
 
+import androidx.lifecycle.LiveData
 import com.example.carapp.core.Result
+import com.example.carapp.todo.data.local.CarDao
 import com.example.carapp.todo.data.remote.CarApi
 
-object CarRepository {
-    private var cachedItems: MutableList<Car>? = null;
+class CarRepository(private val carDao: CarDao) {
+    val items = carDao.getAll()
 
-    suspend fun loadAll(): Result<List<Car>> {
-        if (cachedItems != null) {
-            return Result.Success(cachedItems as List<Car>);
-        }
+    suspend fun refresh(): Result<Boolean> {
         try {
             val items = CarApi.service.find()
-            cachedItems = mutableListOf()
-            cachedItems?.addAll(items)
-            return Result.Success(cachedItems as List<Car>)
-        } catch (e: Exception) {
+            for (item in items) {
+                carDao.insert(item)
+            }
+            return Result.Success(true)
+        } catch(e: Exception) {
             return Result.Error(e)
         }
     }
 
-    suspend fun load(itemId: String): Result<Car> {
-        val item = cachedItems?.find { it._id == itemId }
-        if (item != null) {
-            return Result.Success(item)
-        }
-        try {
-            return Result.Success(CarApi.service.read(itemId))
-        } catch (e: Exception) {
-            return Result.Error(e)
-        }
+    fun getById(itemId: String): LiveData<Car> {
+        return carDao.getById(itemId)
     }
 
     suspend fun save(item: Car): Result<Car> {
         try {
             val createdItem = CarApi.service.create(item)
-            cachedItems?.add(createdItem)
+            carDao.insert(createdItem)
             return Result.Success(createdItem)
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             return Result.Error(e)
         }
     }
@@ -45,27 +37,20 @@ object CarRepository {
     suspend fun update(item: Car): Result<Car> {
         try {
             val updatedItem = CarApi.service.update(item._id, item)
-            val index = cachedItems?.indexOfFirst { it._id == item._id }
-            if (index != null) {
-                cachedItems?.set(index, updatedItem)
-            }
+            carDao.update(updatedItem)
             return Result.Success(updatedItem)
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             return Result.Error(e)
         }
     }
-    suspend fun delete(itemId: String): Result<Boolean>
-    {
+
+    suspend fun delete(itemId: String): Result<Boolean> {
         try {
 
-            val index = cachedItems?.indexOfFirst { it._id == itemId }
-            if (index!=null)
-            {
-                cachedItems?.removeAt(index)
-            }
+            CarApi.service.delete(itemId)
+            carDao.delete(id = itemId)
             return Result.Success(true)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             return Result.Error(e)
         }
     }
