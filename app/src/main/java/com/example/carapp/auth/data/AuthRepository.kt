@@ -30,7 +30,7 @@ object AuthRepository {
     }
 
     private fun setLoggedInUser(user: User, tokenHolder: TokenHolder) {
-        AuthRepository.user = user
+        AuthRepository.user=user
         Api.tokenInterceptor.token = tokenHolder.token
     }
 }

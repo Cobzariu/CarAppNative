@@ -1,11 +1,9 @@
 package com.example.carapp.auth.login
 
+import android.app.Application
 import android.util.Log
 import android.util.Patterns
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.carapp.R
 import kotlinx.coroutines.launch
 import com.example.carapp.auth.data.AuthRepository
@@ -13,7 +11,7 @@ import com.example.carapp.auth.data.TokenHolder
 import com.example.carapp.core.Result
 import com.example.carapp.core.TAG
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mutableLoginFormState = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = mutableLoginFormState

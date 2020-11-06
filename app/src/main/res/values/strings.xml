@@ -18,4 +18,5 @@
     <string name="automatic">Automatic</string>
     <string name="release_date">Release date</string>
     <string name="delete">Delete</string>
+    <string name="logout">Logout</string>
 </resources>

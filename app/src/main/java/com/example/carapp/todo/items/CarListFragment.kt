@@ -1,5 +1,6 @@
 package com.example.carapp.todo.items
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +15,9 @@ import com.example.carapp.R
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import com.example.carapp.auth.data.AuthRepository
 import com.example.carapp.core.TAG
+import kotlinx.android.synthetic.main.fragment_login.*
 
-class CarListFragment : Fragment() {
+class CarListFragment() : Fragment() {
     private lateinit var itemListAdapter: CarListAdapter
     private lateinit var itemsModel: CarListViewModel
 
@@ -42,6 +44,11 @@ class CarListFragment : Fragment() {
         fab.setOnClickListener {
             Log.v(TAG, "add new item")
             findNavController().navigate(R.id.fragment_item_edit)
+        }
+        logout.setOnClickListener{
+            Log.v(TAG, "LOGOUT")
+            AuthRepository.logout()
+            findNavController().navigate(R.id.fragment_login)
         }
     }
 
