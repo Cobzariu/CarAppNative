@@ -1,8 +1,11 @@
 package com.example.carapp.auth.data
 
+import android.util.Log
 import com.example.carapp.auth.data.remote.RemoteAuthDataSource
 import com.example.carapp.core.Api
+import com.example.carapp.core.Constants
 import com.example.carapp.core.Result
+import com.example.carapp.core.TAG
 
 object AuthRepository {
     var user: User? = null
@@ -17,6 +20,7 @@ object AuthRepository {
 
     fun logout() {
         user = null
+        Constants.instance()?.deleteValueString("token")
         Api.tokenInterceptor.token = null
     }
 
@@ -25,6 +29,7 @@ object AuthRepository {
         val result = RemoteAuthDataSource.login(user)
         if (result is Result.Success<TokenHolder>) {
             setLoggedInUser(user, result.data)
+            Constants.instance()?.storeValueString("token",result.data.token);
         }
         return result
     }

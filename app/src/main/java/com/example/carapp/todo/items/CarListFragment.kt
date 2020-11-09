@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.carapp.R
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import com.example.carapp.auth.data.AuthRepository
+import com.example.carapp.core.Constants
 import com.example.carapp.core.TAG
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -36,7 +37,7 @@ class CarListFragment() : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
-        if (!AuthRepository.isLoggedIn) {
+        if (Constants.instance()?.fetchValueString("token")==null) {
             findNavController().navigate(R.id.fragment_login)
             return;
         }

@@ -1,8 +1,10 @@
 package com.example.carapp.auth.login
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.carapp.R
+import com.example.carapp.core.Api
+import com.example.carapp.core.Constants
 import kotlinx.android.synthetic.main.fragment_login.*
 import com.example.carapp.core.Result
+import com.example.carapp.core.TAG
 
 class LoginFragment : Fragment() {
 
@@ -23,16 +28,24 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        /*if (Constants.instance().fetchValueString("token")!=null)
+        {
+            Log.v(TAG,"intra");
+            findNavController().navigate(R.id.fragment_item_list)
+        }*/
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+
         setupLoginForm()
     }
 
     private fun setupLoginForm() {
+
         viewModel.loginFormState.observe(viewLifecycleOwner) { loginState ->
             login.isEnabled = loginState.isDataValid
             if (loginState.usernameError != null) {
@@ -64,6 +77,7 @@ class LoginFragment : Fragment() {
             )
         }
         login.setOnClickListener {
+
             loading.visibility = View.VISIBLE
             error_text.visibility = View.GONE
             viewModel.login(username.text.toString(), password.text.toString())

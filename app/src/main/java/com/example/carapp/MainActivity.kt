@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.carapp.core.Constants
 import com.example.carapp.core.TAG
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        Log.i(TAG, "onCreate")
+        Constants.instance(this.applicationContext);
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
