@@ -51,6 +51,9 @@ class CarListFragment() : Fragment() {
             AuthRepository.logout()
             findNavController().navigate(R.id.fragment_login)
         }
+        camera.setOnClickListener{
+            findNavController().navigate(R.id.view_camera);
+        }
     }
 
     private fun setupItemList() {

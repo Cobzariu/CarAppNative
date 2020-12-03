@@ -19,4 +19,6 @@
     <string name="release_date">Release date</string>
     <string name="delete">Delete</string>
     <string name="logout">Logout</string>
+    <string name="open_gallery">Open Gallery</string>
+    <string name="capture_photo">Capture Photo</string>
 </resources>
