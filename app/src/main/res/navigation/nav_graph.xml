@@ -6,8 +6,12 @@
     app:startDestination="@id/fragment_item_list">
     <activity
         android:id="@+id/view_camera"
-        tools:layout="@layout/view_camera"
-        android:name="com.example.carapp.utils.ViewCameraActivity"/>
+        android:name="com.example.carapp.utils.ViewCameraActivity"
+        tools:layout="@layout/view_camera" />
+    <activity
+        android:id="@+id/view_map"
+        android:name="com.example.carapp.utils.ViewMapActivity"
+        tools:layout="@layout/activity_my_location_on_map" />
     <fragment
         android:id="@+id/fragment_login"
         android:name="com.example.carapp.auth.login.LoginFragment"
@@ -27,6 +31,9 @@
         <action
             android:id="@+id/action_ItemListFragment_to_ViewCamera"
             app:destination="@id/view_camera" />
+        <action
+            android:id="@+id/action_ItemListFragment_to_ViewMap"
+            app:destination="@id/view_map" />
     </fragment>
     <fragment
         android:id="@+id/fragment_item_edit"

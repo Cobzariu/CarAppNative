@@ -54,6 +54,9 @@ class CarListFragment() : Fragment() {
         camera.setOnClickListener{
             findNavController().navigate(R.id.view_camera);
         }
+        mapButton.setOnClickListener{
+            findNavController().navigate(R.id.view_map);
+        }
     }
 
     private fun setupItemList() {
